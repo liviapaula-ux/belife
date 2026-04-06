@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeLife 2026 | iFood</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f7f7; overflow-x: hidden; }
+        .ifood-red { color: #ea1d2c; }
+        .bg-ifood-red { background-color: #ea1d2c; }
+        
+        /* Estilos da Estrada da Vida */
+        .life-road { position: relative; padding: 40px 0; }
+        .life-road::before { 
+            content: ''; 
+            position: absolute; 
+            left: 50%; 
+            top: 0; 
+            bottom: 0; 
+            width: 4px; 
+            background: linear-gradient(to bottom, #ea1d2c 0%, #ff8a00 50%, #34d399 100%); 
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .milestone-container { 
+            position: relative; 
+            margin-bottom: 60px; 
+            width: 100%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }
+
+        .milestone-node { 
+            position: absolute; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 48px; 
+            height: 48px; 
+            background: white; 
+            border: 4px solid #ea1d2c; 
+            border-radius: 50%; 
+            z-index: 10; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .milestone-box { 
+            width: 42%; 
+            background: white; 
+            padding: 24px; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            border: 1px solid #f1f1f1;
+            position: relative;
+        }
+
+        .left-box { margin-right: auto; margin-left: 5%; }
+        .right-box { margin-left: auto; margin-right: 5%; }
+
+        @media (max-width: 768px) {
+            .life-road::before { left: 24px; }
+            .milestone-node { left: 24px; }
+            .milestone-box { width: 85%; margin-left: 60px !important; margin-right: 0 !important; }
+        }
+
+        /* Estilos da Linha do Tempo Vertical (Cronograma) */
+        .timeline-line { position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: #e5e7eb; z-index: 0; }
+
+        .card-benefit { transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .card-benefit:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        
+        .new-badge { background: #34d399; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; text-transform: uppercase; font-weight: bold; }
+        
+        /* Personagens */
+        .character-avatar { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; position: relative; }
+        .character-avatar::after { content: ''; position: absolute; bottom: 0; right: 0; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; }
+    </style>
+</head>
+<body class="pb-20">
+
+    <header class="bg-white shadow-sm border-b-4 border-red-600 py-10 px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 italic uppercase tracking-tighter">BeLife <span class="ifood-red">2026</span></h1>
+        <p class="text-xl text-gray-600 mt-2 font-light tracking-widest uppercase italic">A sua vida em primeiro lugar</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 mt-12">
+        
+        <!-- Intro BeLife -->
+        <section class="bg-white rounded-[40px] p-10 shadow-xl border border-gray-100 mb-16 relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-3xl font-black text-gray-800 mb-6 uppercase italic">Mudança de Paradigma</h2>
+                <p class="text-gray-600 leading-relaxed text-xl max-w-2xl">
+                    Benefícios que acompanham a jornada de vida, não apenas o contrato de trabalho. 
+                    Se sua vida muda, seus benefícios precisam reagir.
+                </p>
+                
+                <div class="flex flex-wrap items-center gap-6 mt-8">
+                    <span class="text-gray-400 line-through text-2xl font-bold italic">Adeus, Beneflex.</span>
+                    <i class="fas fa-arrow-right text-red-500 text-2xl"></i>
+                    <span class="ifood-red text-4xl font-black italic uppercase tracking-tight">Olá, BeLife.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estrada BeLife -->
+        <section class="mb-24">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-black text-gray-800 uppercase tracking-tighter italic">A Estrada BeLife</h2>
+                <p class="text-gray-500 mt-2">Mapeamos os momentos reais que transformam a sua necessidade</p>
+            </div>
+
+            <div class="life-road">
+                <div class="milestone-container">
+                    <div class="milestone-node"><i class="fas fa-briefcase text-red-600"></i></div>
+                    <div class="milestone-box left-box">
+                        <h4 class="font-black text-xl text-gray-800 mb-3 uppercase italic">Vida Profissional 💼</h4>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li>✔ Entrou na empresa / Primeira exp.</li>
+                            <li>✔ Mudou de área ou gestor / Foi promovido</li>
+                            <li>✔ Voltou de licença ou afastamento médico</li>
+                            <li>✔ Mudou regime (Híbrido/Remoto)</li>
+                            <li>✔ Aproximação da aposentadoria</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="milestone-container">
+                    <div class="milestone-node" style="border-color: #f43f5e;"><i class="fas fa-heart text-rose-500"></i></div>
+                    <div class="milestone-box right-box">
+                        <h4 class="font-black text-xl text-gray-800 mb-3 uppercase italic">Família ❤️</h4>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li>✔ Casou / União estável / Divorciou</li>
+                            <li>✔ Adoção ou tratamento fertilidade</li>
+                            <li>✔ Família recomposta (madrasta/padrasto)</li>
+                            <li>✔ Novo relacionamento ou separação</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="milestone-container">
+                    <div class="milestone-node" style="border-color: #f59e0b;"><i class="fas fa-baby text-amber-500"></i></div>
+                    <div class="milestone-box left-box">
+                        <h4 class="font-black text-xl text-gray-800 mb-3 uppercase italic">Parentalidade 👶</h4>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li>✔ Descobriu gravidez / Licença</li>
+                            <li>✔ Adaptação escolar / Adolescência</li>
+                            <li>✔ Vestibular / Saída dos filhos de casa</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="milestone-container">
+                    <div class="milestone-node" style="border-color: #3b82f6;"><i class="fas fa-hands-holding-child text-blue-500"></i></div>
+                    <div class="milestone-box right-box">
+                        <h4 class="font-black text-xl text-gray-800 mb-3 uppercase italic">Cuidado Familiar 👨&zwj;👩&zwj;👧&zwj;👦</h4>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                            <li>✔ Cuidado de pais idosos ou familiar doente</li>
+                            <li>✔ Internação de familiar / Nova rotina</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cronograma -->
+        <section class="mb-24 bg-white rounded-[40px] p-10 shadow-lg border border-gray-100">
+            <h2 class="text-3xl font-black text-gray-800 mb-12 flex items-center uppercase italic">
+                <i class="fas fa-calendar-alt ifood-red mr-4"></i> Cronograma de lançamento BeLife + Eleição Geral
+            </h2>
+            
+            <div class="relative ml-4 md:ml-10">
+                <div class="timeline-line"></div>
+                
+                <div class="relative pl-12 mb-10">
+                    <div class="absolute left-0 w-10 h-10 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center z-10 shadow-sm"><i class="fas fa-envelope-open text-gray-400"></i></div>
+                    <p class="text-xs text-gray-400 font-black uppercase tracking-widest">Início</p>
+                    <h4 class="font-bold text-lg">01/06 - Cartas promoções e méritos</h4>
+                    <span class="text-[10px] bg-gray-100 px-2 py-1 rounded font-bold uppercase">Exclusivo Liderança</span>
+                </div>
+
+                <div class="relative pl-12 mb-10">
+                    <div class="absolute left-0 w-10 h-10 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center z-10 shadow-sm"><i class="fas fa-user-check text-gray-400"></i></div>
+                    <p class="text-[9px] text-blue-500 font-black uppercase tracking-tighter">1 dia depois</p>
+                    <h4 class="font-bold text-lg">02/06 - Cartas AVD</h4>
+                    <span class="text-[10px] text-gray-500 italic">Foodlovers recebem as suas cartas</span>
+                </div>
+
+                <div class="relative pl-12 mb-10">
+                    <div class="absolute left-0 w-10 h-10 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center z-10 shadow-sm"><i class="fas fa-comments text-gray-400"></i></div>
+                    <p class="text-[9px] text-blue-500 font-black uppercase tracking-tighter">Próxima etapa</p>
+                    <h4 class="font-bold text-lg">03 a 14/06 - Feedback Liderança</h4>
+                    <p class="text-xs text-gray-500">Alinhamento e planeamento de carreira</p>
+                </div>
+
+                <div class="relative pl-12 mb-10">
+                    <div class="absolute left-0 w-12 h-12 -ml-1 bg-red-600 rounded-full flex items-center justify-center z-10 shadow-xl shadow-red-200 border-4 border-white"><i class="fas fa-star text-white"></i></div>
+                    <p class="text-[9px] text-red-600 font-black italic uppercase tracking-widest">O Momento BeLife</p>
+                    <h4 class="font-black text-red-600 text-2xl uppercase italic">15/06 - Início do Ciclo de Eleição</h4>
+                </div>
+
+                <div class="relative pl-12 mb-10">
+                    <div class="absolute left-0 w-10 h-10 bg-red-100 border-2 border-red-600 rounded-full flex items-center justify-center z-10 shadow-sm"><i class="fas fa-building text-red-600"></i></div>
+                    <p class="text-[9px] text-blue-500 font-black uppercase tracking-tighter">2 dias depois</p>
+                    <h4 class="font-bold text-lg text-red-600">17/06 - Jornada de Benefícios (Osasco)</h4>
+                    <p class="text-xs text-gray-600">Encontro presencial com todos os parceiros.</p>
+                </div>
+
+                <div class="relative pl-12 mb-10">
+                    <div class="absolute left-0 w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center z-10 shadow-lg"><i class="fas fa-clock text-white text-sm"></i></div>
+                    <p class="text-[9px] text-blue-500 font-black uppercase tracking-tighter">Reta final</p>
+                    <h4 class="font-bold text-lg text-gray-800">22/06 - Encerramento (23h59)</h4>
+                    <p class="text-xs text-red-500 font-bold">Último dia para submeter as escolhas!</p>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="absolute left-0 w-10 h-10 bg-green-500 rounded-full flex items-center justify-center z-10 shadow-lg shadow-green-100"><i class="fas fa-check text-white"></i></div>
+                    <p class="text-[9px] text-green-600 font-black uppercase tracking-tighter">Conclusão</p>
+                    <h4 class="font-bold text-lg">30/06 - Pagamento iFood Benefícios</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Destaques da Eleição Geral -->
+        <section class="mb-24">
+            <h2 class="text-3xl font-black text-gray-800 mb-8 uppercase italic">Destaques da Eleição Geral</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="card-benefit bg-red-50 border border-red-100 p-5 rounded-2xl" onclick="openModal('Saúde', 'Pode realizar upgrade e downgrade. Permite inclusão de dependentes.')">
+                    <i class="fas fa-heartbeat text-red-500 mb-3"></i>
+                    <h5 class="font-bold text-gray-800">Plano de Saúde</h5>
+                </div>
+                <div class="card-benefit bg-red-50 border border-red-100 p-5 rounded-2xl" onclick="openModal('Odonto', 'Pode realizar upgrade e downgrade. Permite inclusão de dependentes.')">
+                    <i class="fas fa-tooth text-red-500 mb-3"></i>
+                    <h5 class="font-bold text-gray-800">Plano Odontológico</h5>
+                </div>
+                <div class="card-benefit bg-red-50 border border-red-100 p-5 rounded-2xl" onclick="openModal('Seguro de Vida', 'Novo Parceiro com apoio familiar.')">
+                    <div class="flex justify-between">
+                        <i class="fas fa-shield-alt text-red-500 mb-3"></i>
+                        <span class="new-badge">Novo</span>
+                    </div>
+                    <h5 class="font-bold text-gray-800">Seguro de Vida</h5>
+                </div>
+                <div class="card-benefit bg-red-50 border border-red-100 p-5 rounded-2xl" onclick="openModal('VA / VR', 'Reajuste incorporado. Revise a distribuição como desejar.')">
+                    <i class="fas fa-utensils text-red-500 mb-3"></i>
+                    <h5 class="font-bold text-gray-800">VA / VR</h5>
+                </div>
+                <div class="card-benefit bg-orange-50 border border-orange-100 p-5 rounded-2xl" onclick="openModal('Plano Pet', 'Agora com Meu Pet e Pet Love.')">
+                    <div class="flex justify-between">
+                        <i class="fas fa-paw text-orange-500 mb-3"></i>
+                        <span class="new-badge" style="background: #f97316;">Novo</span>
+                    </div>
+                    <h5 class="font-bold text-gray-800">Plano Pet</h5>
+                </div>
+                <div class="card-benefit bg-orange-50 border border-orange-100 p-5 rounded-2xl" onclick="openModal('Viagens', 'Parceria com a Decolar!')">
+                    <i class="fas fa-plane text-orange-500 mb-3"></i>
+                    <h5 class="font-bold text-gray-800">Viagens</h5>
+                </div>
+                <div class="card-benefit bg-orange-50 border border-orange-100 p-5 rounded-2xl" onclick="openModal('Reembolso Flex', 'SPA, Livros, Itens Esportivos e mais.')">
+                    <div class="flex justify-between">
+                        <i class="fas fa-receipt text-orange-500 mb-3"></i>
+                        <span class="new-badge" style="background: #f97316;">Novo</span>
+                    </div>
+                    <h5 class="font-bold text-gray-800">Reembolso Flex</h5>
+                </div>
+                <!-- Nova caixinha Previdência Privada -->
+                <div class="card-benefit bg-blue-50 border border-blue-100 p-5 rounded-2xl" onclick="openModal('Previdência Privada', 'Você pode alocar seus pontos e se preparar para o futuro.')">
+                    <i class="fas fa-piggy-bank text-blue-500 mb-3"></i>
+                    <h5 class="font-bold text-gray-800 uppercase">Previdência Privada</h5>
+                    <p class="text-[10px] text-gray-500 mt-1">Alocação de pontos para o futuro.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Agentes BeLife (Personagens) -->
+        <section class="mb-24 bg-gray-50 rounded-[40px] p-10 border border-gray-200">
+            <h2 class="text-3xl font-black text-gray-800 mb-12 text-center uppercase italic">Conheça seus Agentes BeLife</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                
+                <!-- RecomendAÍ -->
+                <div class="flex flex-col items-center">
+                    <div class="character-avatar bg-red-100 shadow-md">
+                        <i class="fas fa-robot text-red-600 text-4xl"></i>
+                        <div class="absolute bottom-0 right-0 w-6 h-6 bg-red-600 rounded-full border-2 border-white"></div>
+                    </div>
+                    <h4 class="font-black text-xl text-gray-800 uppercase italic">RecomendAÍ</h4>
+                    <p class="text-sm text-gray-600 mt-2">Seu agente de apoio para escolhas e benefícios personalizados.</p>
+                </div>
+
+                <!-- IndicAI -->
+                <div class="flex flex-col items-center">
+                    <div class="character-avatar bg-blue-100 shadow-md">
+                        <i class="fas fa-user-md text-blue-600 text-4xl"></i>
+                        <div class="absolute bottom-0 right-0 w-6 h-6 bg-blue-600 rounded-full border-2 border-white"></div>
+                    </div>
+                    <h4 class="font-black text-xl text-gray-800 uppercase italic">IndicAI</h4>
+                    <p class="text-sm text-gray-600 mt-2">Especialista em comparar redes e apoiar na melhor escolha do plano de saúde.</p>
+                </div>
+
+                <!-- EconomizAI -->
+                <div class="flex flex-col items-center">
+                    <div class="character-avatar bg-green-100 shadow-md">
+                        <i class="fas fa-hand-holding-dollar text-green-600 text-4xl"></i>
+                        <div class="absolute bottom-0 right-0 w-6 h-6 bg-green-600 rounded-full border-2 border-white"></div>
+                    </div>
+                    <h4 class="font-black text-xl text-gray-800 uppercase italic">EconomizAI</h4>
+                    <p class="text-sm text-gray-600 mt-2">Sugere vantagens e promoções exclusivas do nosso pacote.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Simulador -->
+        <a href="https://liviapaula-ux.github.io/mockupsimulador/" target="_blank" class="block bg-gradient-to-br from-red-600 to-red-800 text-white rounded-[40px] p-10 text-center shadow-2xl hover:scale-[1.02] transition-transform mb-12">
+            <i class="fas fa-calculator text-5xl mb-6"></i>
+            <h3 class="text-3xl font-black uppercase italic mb-2">Simulador BeLife</h3>
+            <p class="text-lg opacity-80">Refletir sua realidade atual nos seus benefícios.</p>
+        </a>
+
+    </main>
+
+    <footer class="bg-gray-900 text-white py-16 px-4 text-center">
+        <p class="text-xs opacity-40 mb-2 tracking-[0.3em] uppercase font-bold">People Excellence • iFood</p>
+        <h4 class="text-2xl font-black italic uppercase">BeLife: A vida em primeiro lugar.</h4>
+    </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="modal px-4" onclick="closeModal()">
+        <div class="bg-white rounded-[40px] p-10 max-w-md w-full shadow-2xl" onclick="event.stopPropagation()">
+            <h3 id="modalTitle" class="text-2xl font-black text-gray-800 mb-4 text-center uppercase italic"></h3>
+            <p id="modalContent" class="text-gray-600 leading-relaxed text-center"></p>
+            <button onclick="closeModal()" class="mt-10 w-full bg-gray-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest">Entendi</button>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, text) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalContent').innerText = text;
+            document.getElementById('modal').classList.add('active');
+        }
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
